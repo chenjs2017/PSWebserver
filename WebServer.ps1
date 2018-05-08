@@ -57,7 +57,7 @@ function GetTenants()
 
 function StartHttpServer 
 {
-	$url = 'http://localhost:8080/'
+	$url = 'http://*:8080/'
 	$listener = New-Object System.Net.HttpListener
 	$listener.Prefixes.Add($url)
 	$listener.Start()
@@ -132,8 +132,7 @@ function StartHttpServer
 	    $response.OutputStream.Write($buffer, 0, $buffer.Length)
         $response.Close()
 		
-        $responseStatus = $response.StatusCode
-		Write-Host "< $responseStatus"
+		Write-Host "> $response.StatusCode"
 	}
 }
 
@@ -157,12 +156,15 @@ function GetFieldFromQuery($query, $field)
 function ConnectMsol()
 {
     $username = "jack@hartogjacobs.com"
-    $password = Get-Content 'C:\Users\JackChen\source\repos\PSWebserver\mysecurestring.txt' | ConvertTo-SecureString
+    $password = Get-Content 'mysecurestring.txt' | ConvertTo-SecureString
 
     $cred = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password
     Connect-MsolService -Credential $cred
 
 }
-
+$Error.Clear();
 ConnectMsol
-StartHttpServer
+if ($Error.Count -eq 0)
+{
+    StartHttpServer
+}
