@@ -57,7 +57,13 @@ function GetTenants()
 
 function StartHttpServer 
 {
-	$url = 'http://*:8080/'
+	$guid = [guid]::NewGuid()
+	$certHash = "d8e8a3bd67ba29c81e08ff81fb95f37a2dc8498c"
+	$ip = "0.0.0.0" # This means all IP addresses
+	$port = "8080" # the default HTTPS port
+	"http add sslcert ipport=$($ip):$port certhash=$certHash appid={$guid}" | netsh
+
+	$url = 'https://*:8080/'
 	$listener = New-Object System.Net.HttpListener
 	$listener.Prefixes.Add($url)
 	$listener.Start()
