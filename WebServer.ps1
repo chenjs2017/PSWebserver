@@ -1,3 +1,10 @@
+#####################
+# to install it on live server
+# 1. change mysecurestring.txt to absolute path
+# 2. run Task Scheduler, Create a new task
+# 		a.  Tiggers : At startup
+#		b.  Action Start a program powershell -f "c:\Users\jack\PSWebserver\Webserver.ps1"
+#		c. clear all contditions and settings except 'Allow Task to be run on demand'
 Add-Type -AssemblyName System.Web
 
 function ResetPassword($query)
